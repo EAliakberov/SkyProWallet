@@ -1,3 +1,3 @@
-export function Header() {
-    return <>Header</>;
+export function Header({activePage}) {
+    return <>{activePage || 'Другая страница'}</>;
 }
