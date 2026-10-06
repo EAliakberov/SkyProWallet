@@ -7,7 +7,7 @@ export function ExpensesPage() {
         <>
             <GlobalStyles />
             <Wrapper>
-                <Header></Header>
+                <Header showButtons={true} activePage={'ExpensesPage'}></Header>
             </Wrapper>
         </>
     );

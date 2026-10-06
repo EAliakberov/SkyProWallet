@@ -2,7 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 import { PrivatePage } from '../../Pages/PrivatePage';
 import { MainPage } from '../../Pages/MainPage';
 import { ExpensesPage } from '../../Pages/ExpensesPage';
-import { AnalysisPage } from '../../Pages/Analysis';
+import { AnalysisPage } from '../../Pages/AnalysisPage';
 import { SignInOutPage } from '../../Pages/SignInOutPage';
 
 export function AppRouter() {

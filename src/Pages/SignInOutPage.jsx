@@ -8,7 +8,7 @@ export function SignInOutPage() {
         <>
             <GlobalStyles />
             <Wrapper>
-                <Header></Header>
+                <Header showButtons={false}></Header>
                 <SignInOutForm></SignInOutForm>
             </Wrapper>
         </>
