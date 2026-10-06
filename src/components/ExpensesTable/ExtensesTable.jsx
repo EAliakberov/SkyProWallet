@@ -1,0 +1,8 @@
+
+
+export function ExtensesTable() {
+    return (
+        <> 
+        </>
+    );
+}
