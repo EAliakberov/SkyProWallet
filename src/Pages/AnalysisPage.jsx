@@ -7,7 +7,7 @@ export function AnalysisPage() {
         <>
             <GlobalStyles />
             <Wrapper>
-                <Header></Header>
+                <Header showButtons={true} activePage={'AnalisysPage'}></Header>
             </Wrapper>
         </>
     );
