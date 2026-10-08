@@ -1,3 +1,9 @@
-export function Input({ type, error }) {
-    return <input type={type} className={error ? 'error' : ''}></input>;
+import { SInput, SInputContainer } from './Input.styled';
+
+export function Input({ type, error, ...props }) {
+    return (
+        <SInputContainer className={'input-container ' + (error ? 'error' : '')}>
+            <SInput type={type} className={error ? 'error' : ''} {...props}></SInput>
+        </SInputContainer>
+    );
 }
