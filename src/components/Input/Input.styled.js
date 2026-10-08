@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const SInputContainer = styled.div`
+    width: 100%;
     position: relative;
     display: flex;
     &.error::after {
@@ -24,5 +25,9 @@ export const SInput = styled.input`
     &.error {
         background-color: #ffebeb;
         border-color: #f25050;
+    }
+    &.valid {
+        background-color: #f1ebfd;
+        border-color: #7334ea;
     }
 `;

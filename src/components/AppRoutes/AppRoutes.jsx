@@ -13,7 +13,7 @@ export function AppRouter() {
                 <Route path="/expenses" element={<ExpensesPage />} />
                 <Route path="/analysis" element={<AnalysisPage />} />
             </Route>
-            <Route path="/signin" element={<SignInOutPage />} />
+            <Route path="/signin" element={<SignInOutPage signup={false}/>} />
             <Route path="/signup" element={<SignInOutPage signup={true} />} />
         </Routes>
     );

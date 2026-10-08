@@ -3,13 +3,13 @@ import { Header } from '../components/Header/Header';
 import { SignInOutForm } from '../components/SignInOutForm/SignInOutForm';
 import { Wrapper } from '../components/Wrapper/Wrapper';
 
-export function SignInOutPage() {
+export function SignInOutPage({ signup }) {
     return (
         <>
             <GlobalStyles />
             <Wrapper>
                 <Header showButtons={false}></Header>
-                <SignInOutForm></SignInOutForm>
+                <SignInOutForm signup={signup}></SignInOutForm>
             </Wrapper>
         </>
     );
