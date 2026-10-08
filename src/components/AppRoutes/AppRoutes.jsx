@@ -11,11 +11,10 @@ export function AppRouter() {
             <Route element={<PrivatePage />}>
                 <Route path="/" element={<MainPage />} />
                 <Route path="/expenses" element={<ExpensesPage />} />
-                <Route path="/analisis" element={<AnalysisPage />} />
-                
+                <Route path="/analysis" element={<AnalysisPage />} />
             </Route>
             <Route path="/signin" element={<SignInOutPage />} />
-            <Route path="/signup" element={<SignInOutPage signup = {true} />} />
+            <Route path="/signup" element={<SignInOutPage signup={true} />} />
         </Routes>
     );
 }
