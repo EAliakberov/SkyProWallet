@@ -23,7 +23,7 @@ export const GlobalStyles = createGlobalStyle`
     h3{
         font-size: 16px;
         line-height: 100%;
-        font-weight: 700;
+        font-weight: 600;
     }
 
     body {        

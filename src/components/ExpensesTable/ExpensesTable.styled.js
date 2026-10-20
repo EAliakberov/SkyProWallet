@@ -30,12 +30,11 @@ export const TableWrapper = styled.div`
     overflow-y: auto;
     overflow-x: hidden;
     padding: 0 32px;
-    padding-top: 18px;
-    scrollbar-width: 6px;
+    padding-top: 12px;
 
     &::-webkit-scrollbar {
-        width: 6px; /* Полоса будет ровно 8px от самого края */
-        height: 6px; /* Для горизонтального, если он есть */
+        width: 6px; 
+        height: 6px; 
     }
 
     &::-webkit-scrollbar-track {
@@ -44,13 +43,13 @@ export const TableWrapper = styled.div`
     }
 
     &::-webkit-scrollbar-thumb {
-        background-color: #e8e8e8;
+        background-color: #D9D9D9;
         border: none;
         border-radius: 6px;
     }
 
     &::-webkit-scrollbar-thumb:hover {
-        background-color: #d9d9d9;
+        background-color: #D9D9D9;
     }
 `;
 
@@ -77,12 +76,6 @@ export const GridHead = styled.div`
     display: grid;
     grid-template-columns: subgrid;
     grid-column: 1/6;
-
-    /* sticky-заголовок */
-    position: sticky;
-    top: 0;
-    z-index: 2;
-
     background: #ffffff;
 `;
 
@@ -91,22 +84,18 @@ export const Row = styled.div`
     grid-template-columns: subgrid;
     grid-column: 1/6;
 
-    height: 34px;
+    padding: 7px 0;
 `;
 
 export const Cell = styled.div`
     grid-template-columns: 1;
+    height: 15px;
     display: flex;
     align-items: center;
 
-    height: 34px;
+    color: #000000;
 
-    padding: 0;
-
-    color: #404040;
-
-    font-size: 15px;
-    line-height: 20px;
+    line-height: 100%;
     font-weight: 400;
 
     white-space: nowrap;
@@ -116,34 +105,21 @@ export const Cell = styled.div`
     ${({ $head }) =>
         $head &&
         `
-        height: 42px;
-        padding: 0 0 11px;
+        height: 29px;
         border-bottom: 1px solid #d5d5d5;
         color: #b8b8b8;
         `}
 
-    ${({ $action }) =>
-        $action &&
-        `
-        justify-content: center;
-        `}
 `;
 
 export const DeleteButton = styled.button`
-    display: inline-flex;
+    display: flex;
     align-items: center;
     justify-content: center;
 
-    width: 28px;
-    height: 28px;
-
-    padding: 0;
-
     border: 0;
-    border-radius: 5px;
 
     background: transparent;
-    color: #a8a8a8;
 
     cursor: pointer;
 
@@ -151,17 +127,8 @@ export const DeleteButton = styled.button`
         color 0.15s ease,
         background 0.15s ease;
 
-    &:hover {
-        color: #777777;
-        background: #f3f3f3;
-    }
-
-    &:active {
-        background: #e9e9e9;
-    }
-
     svg {
-        width: 15px;
-        height: 15px;
+        width: 12px;
+        height: 12px;
     }
 `;

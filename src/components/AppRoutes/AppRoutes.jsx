@@ -9,11 +9,11 @@ export function AppRouter() {
     return (
         <Routes>
             <Route element={<PrivatePage />}>
-                <Route path="/" element={<MainPage />} />
+                <Route path="/" element={<SignInOutPage />} />
                 <Route path="/expenses" element={<ExpensesPage />} />
                 <Route path="/analysis" element={<AnalysisPage />} />
             </Route>
-            <Route path="/signin" element={<SignInOutPage signup={false}/>} />
+            <Route path="/signin" element={<SignInOutPage signup={false} />} />
             <Route path="/signup" element={<SignInOutPage signup={true} />} />
         </Routes>
     );

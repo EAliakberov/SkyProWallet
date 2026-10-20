@@ -1,16 +1,17 @@
-import { useState } from 'react';
+import { useActionState, useState } from 'react';
 import Button from '../Button/Button';
 import { Input } from '../Input/Input';
 import { SSignInOutForm } from './SignInOutForm.styled';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export function SignInOutForm({ signup }) {
     const [fields, setFields] = useState({ name: '', email: '', password: '' });
     const [errors, setErrors] = useState({ name: null, email: 'ошибка', password: null });
     const [valid, setValid] = useState({ name: false, email: false, password: false });
+    const navigate = useNavigate();
 
-    function isFieldValid(name, value){
-        return true
+    function isFieldValid(name, value) {
+        return true;
     }
 
     function handleOnChange(e) {
@@ -18,7 +19,14 @@ export function SignInOutForm({ signup }) {
         const value = e.target.value;
         setFields({ ...fields, [name]: value });
         setErrors({ name: null, email: null, password: null });
-        setValid({...valid, [name]:isFieldValid(name, value)});
+        setValid({ ...valid, [name]: isFieldValid(name, value) });
+    }
+
+    function handleSignInClick() {
+        navigate('/analysis');
+    }
+    function handleSignUpClick() {
+        navigate('/analysis');
     }
 
     return (
@@ -59,7 +67,12 @@ export function SignInOutForm({ signup }) {
                     </p>
                 ) : null}
             </div>
-            <Button className="form_button">{signup ? 'Зарегистрироваться' : 'Войти'}</Button>
+            <Button
+                className="form_button"
+                onClick={signup ? handleSignUpClick : handleSignInClick}
+            >
+                {signup ? 'Зарегистрироваться' : 'Войти'}
+            </Button>
             <div className="form_text">
                 <p>{signup ? 'Уже есть аккаунт?' : 'Нужно зарегистрироваться?'}</p>
                 {signup ? (

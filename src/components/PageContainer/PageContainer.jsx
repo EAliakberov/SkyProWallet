@@ -10,11 +10,7 @@ const SPageContainer = styled.div`
     min-height: 0; /* важно во flex-родителе */
 
     display: flex;
-    flex-direction: column;
-
-    & > div:not(:nth-child(1)) {
-        box-shadow: 0px 20px 67px -12px #00000021;
-    }
+    flex-direction: column;   
 `;
 
 export function PageContainer({ children }) {
