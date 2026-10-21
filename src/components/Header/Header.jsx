@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 import { SHeader, SLink } from './Header.styled';
+import { useContext } from 'react';
+import { UserContext } from '../../context/contextAPI';
 
 function HeaderLink({ disabled, children, ...props }) {
     function handleClick(e) {
@@ -15,11 +17,13 @@ function HeaderLink({ disabled, children, ...props }) {
     );
 }
 
-
 export function Header({ showButtons, activePage }) {
+    const { logOut } = useContext(UserContext);
+
     function handleExitClick(e) {
-        e.preventDefault();
+        logOut();
     }
+
     return (
         <SHeader>
             <div className="header-container">
@@ -45,10 +49,10 @@ export function Header({ showButtons, activePage }) {
                     </div>
                 ) : null}
                 {showButtons ? (
-                    <HeaderLink className="button exit-button" onClick={handleExitClick} to="/signout">
+                    <button className="button exit-button" onClick={handleExitClick}>
                         {' '}
                         Выйти
-                    </HeaderLink>
+                    </button>
                 ) : null}
             </div>
         </SHeader>

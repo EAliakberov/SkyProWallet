@@ -1,20 +1,19 @@
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import { PrivatePage } from '../../Pages/PrivatePage';
-import { MainPage } from '../../Pages/MainPage';
 import { ExpensesPage } from '../../Pages/ExpensesPage';
 import { AnalysisPage } from '../../Pages/AnalysisPage';
-import { SignInOutPage } from '../../Pages/SignInOutPage';
+import { SignInUpPage } from '../../Pages/SignInUpPage';
 
 export function AppRouter() {
     return (
         <Routes>
             <Route element={<PrivatePage />}>
-                <Route path="/" element={<SignInOutPage />} />
+                <Route path="/" element={<Navigate to="/analysis" />} />
                 <Route path="/expenses" element={<ExpensesPage />} />
                 <Route path="/analysis" element={<AnalysisPage />} />
             </Route>
-            <Route path="/signin" element={<SignInOutPage signup={false} />} />
-            <Route path="/signup" element={<SignInOutPage signup={true} />} />
+            <Route path="/signin" element={<SignInUpPage signup={false} />} />
+            <Route path="/signup" element={<SignInUpPage signup={true} />} />
         </Routes>
     );
 }

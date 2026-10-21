@@ -6,6 +6,7 @@ export function Input({ type, error, valid, ...props }) {
             <SInput
                 type={type}
                 className={(error ? 'error' : '') + (error ? 'error' : '')}
+                $valid={valid}
                 {...props}
             ></SInput>
         </SInputContainer>

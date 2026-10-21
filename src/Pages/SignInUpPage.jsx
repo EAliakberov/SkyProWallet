@@ -1,17 +1,17 @@
 import { GlobalStyles } from '../components/GlobalStyles';
 import { Header } from '../components/Header/Header';
 import { PageContainer } from '../components/PageContainer/PageContainer';
-import { SignInOutForm } from '../components/SignInOutForm/SignInOutForm';
+import { SignInUpForm } from '../components/SignInUpForm/SignInUpForm';
 import { Wrapper } from '../components/Wrapper/Wrapper';
 
-export function SignInOutPage({ signup }) {
+export function SignInUpPage({ signup = false }) {
     return (
         <>
             <GlobalStyles />
             <Wrapper>
                 <Header showButtons={false}></Header>
                 <PageContainer>
-                    <SignInOutForm signup={signup}></SignInOutForm>
+                    <SignInUpForm signup={signup}></SignInUpForm>
                 </PageContainer>
             </Wrapper>
         </>

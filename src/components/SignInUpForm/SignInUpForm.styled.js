@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const SSignInOutForm = styled.div`
+export const SSignInUpForm = styled.div`
     position: absolute;
     top: 50%;
     left: 50%;

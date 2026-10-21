@@ -21,13 +21,15 @@ export const SInput = styled.input`
     border: 0.5px solid #999999;
     border-radius: 6px;
     display: flex;
+    background-color: ${({ $valid }) => {
+        return $valid ? '#f1ebfd' : '#fff';
+    }};
+    border-color: ${({ $valid }) => {
+        return $valid ? '#7334ea' : '#999999';
+    }};
 
     &.error {
         background-color: #ffebeb;
         border-color: #f25050;
-    }
-    &.valid {
-        background-color: #f1ebfd;
-        border-color: #7334ea;
     }
 `;

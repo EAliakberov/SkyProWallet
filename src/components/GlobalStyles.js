@@ -34,4 +34,13 @@ export const GlobalStyles = createGlobalStyle`
         font-size: 12px;
     }
     
+    button {
+        font: inherit;
+        font-weight: 600;
+        background-color: transparent;
+        border: none;
+        &:hover{
+            color: #7334EA;
+        }
+    }
 `;
