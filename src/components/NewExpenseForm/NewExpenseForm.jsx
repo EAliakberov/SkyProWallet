@@ -75,7 +75,7 @@ export function NewExpenseForm() {
                 placeholder="Введите сумму"
                 type="number"
                 name="sum"
-                step="0.01"
+                step="1"
                 value={newTransaction.sum.toString()}
                 onChange={handleInputChange}
             ></Input>
