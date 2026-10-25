@@ -18,6 +18,18 @@ export const setAuthToken = (token) => {
     authToken = token;
 };
 
+export const toApiDate = (date) => {
+    const month = date.getMonth() + 1; // 0-based → человеческий
+    const day = date.getDate();
+    const year = date.getFullYear();
+    return `${month}-${day}-${year}`;
+};
+
+const handleApiError = (err) => {
+    const message = err.response?.data?.error || err.message;
+    throw new Error(message, { cause: err });
+};
+
 // 2. Перехватчик (Interceptor) для автоматического добавления токена к каждому запросу
 transactionsApi.interceptors.request.use(
     (config) => {
@@ -41,11 +53,15 @@ transactionsApi.interceptors.request.use(
  * @returns {Promise<Array>} Список транзакций
  */
 export const getTransactions = async (options = {}) => {
-    const { sortBy, filterBy } = options;
-    const response = await transactionsApi.get('/transactions', {
-        params: { sortBy, filterBy },
-    });
-    return response.data;
+    try {
+        const { sortBy, filterBy } = options;
+        const response = await transactionsApi.get('/transactions', {
+            params: { sortBy, filterBy },
+        });
+        return response.data;
+    } catch (err) {
+        handleApiError(err);
+    }
 };
 
 /**
@@ -58,8 +74,12 @@ export const getTransactions = async (options = {}) => {
  * @returns {Promise<Array>} Обновленный список всех транзакций
  */
 export const addTransaction = async (transactionData) => {
-    const response = await transactionsApi.post('/transactions', transactionData);
-    return response.data;
+    try {
+        const response = await transactionsApi.post('/transactions', transactionData);
+        return response.data.transactions;
+    } catch (err) {
+        handleApiError(err);
+    }
 };
 
 /**
@@ -69,8 +89,12 @@ export const addTransaction = async (transactionData) => {
  * @returns {Promise<Array>} Обновленный список всех транзакций
  */
 export const updateTransaction = async (id, updatedData) => {
-    const response = await transactionsApi.patch(`/transactions/${id}`, updatedData);
-    return response.data;
+    try {
+        const response = await transactionsApi.patch(`/transactions/${id}`, updatedData);
+        return response.data;
+    } catch (err) {
+        handleApiError(err);
+    }
 };
 
 /**
@@ -79,8 +103,12 @@ export const updateTransaction = async (id, updatedData) => {
  * @returns {Promise<Array>} Обновленный список всех транзакций
  */
 export const deleteTransaction = async (id) => {
-    const response = await transactionsApi.delete(`/transactions/${id}`);
-    return response.data;
+    try {
+        const response = await transactionsApi.delete(`/transactions/${id}`);
+        return response.data.transactions;
+    } catch (err) {
+        handleApiError(err);
+    }
 };
 
 /**
@@ -91,6 +119,10 @@ export const deleteTransaction = async (id) => {
  * @returns {Promise<Array>} Список транзакций за период
  */
 export const getTransactionsByPeriod = async (period) => {
-    const response = await transactionsApi.post('/transactions/period', period);
-    return response.data;
+    try {
+        const response = await transactionsApi.post('/transactions/period', period);
+        return response.data;
+    } catch (err) {
+        handleApiError(err);
+    }
 };

@@ -1,6 +1,6 @@
 import { AppRouter } from './components/AppRoutes/AppRoutes';
 import { GlobalStyles } from './components/GlobalStyles';
-import { TransactionsContextProvider } from './context/transactionsContextProvider';
+import { TransactionsContextProvider } from './context/TransactionsContextProvider';
 import { UserContextProvider } from './context/UserContextProvider';
 
 function App() {

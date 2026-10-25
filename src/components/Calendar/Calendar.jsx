@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react';
+import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 
 import {
     addMonths,
@@ -27,11 +27,9 @@ import {
     WeekDay,
     WeekHeader,
 } from './Calendar.styled';
+import { TransactionsContext } from '../../context/contextAPI';
 
 const WEEK_DAYS = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'];
-
-const INITIAL_START = new Date();
-const INITIAL_END = new Date();
 
 function getMonthDays(month, showFullWeeks = true) {
     let first = startOfMonth(month);
@@ -50,31 +48,50 @@ function getMonthTitle(date) {
 }
 
 export default function Calendar({
-    initialStartDate = INITIAL_START,
-    initialEndDate = INITIAL_END,
+    initialStartDate = null,
+    initialEndDate = null,
     monthsToShow = 18,
     onChange,
     title = 'Период',
 }) {
+    const { setPeriod } = useContext(TransactionsContext);
     const [startDate, setStartDate] = useState(initialStartDate);
     const [endDate, setEndDate] = useState(initialEndDate);
-    const [visibleMonth, setVisibleMonth] = useState(startOfMonth(initialStartDate || new Date()));
+    // const [visibleMonth, setVisibleMonth] = useState(() => {
+    //     if (initialStartDate) {
+    //         return startOfMonth(initialStartDate);
+    //     }
+    //     const d = new Date();
+    //     d.setMonth(d.getMonth() - 16);
+    //     return startOfMonth(d);
+    // });
 
     const scrollRef = useRef(null);
     const monthRefs = useRef({});
 
-    const months = useMemo(
-        () => Array.from({ length: monthsToShow }, (_, index) => addMonths(visibleMonth, index)),
-        [visibleMonth, monthsToShow]
-    );
+    const months = useMemo(() => {
+        const d = new Date();
+        d.setMonth(d.getMonth() - 16);
+        return Array.from({ length: monthsToShow }, (_, index) =>
+            addMonths(startOfMonth(d), index)
+        );
+    }, [monthsToShow]);
 
     const selectDate = (date) => {
         let nextStart;
         let nextEnd;
 
-        if (!startDate || (startDate && endDate)) {
+        if (!startDate) {
             nextStart = date;
             nextEnd = null;
+        } else if (startDate && endDate) {
+            if (isSameDay(startDate, endDate) && isSameDay(date, startDate)) {
+                nextStart = null;
+                nextEnd = null;
+            } else {
+                nextStart = date;
+                nextEnd = null;
+            }
         } else if (isBefore(date, startDate)) {
             nextStart = date;
             nextEnd = startDate;
@@ -90,7 +107,24 @@ export default function Calendar({
             startDate: nextStart,
             endDate: nextEnd,
         });
+        setPeriod({ start: nextStart, end: nextEnd || nextStart });
     };
+
+    useEffect(() => {
+        const el = scrollRef.current;
+        if (!el) return;
+
+        const targetDate = startDate || new Date();
+        const targetKey = format(targetDate, 'yyyy-MM');
+        const node = monthRefs.current[targetKey];
+
+        if (node) {
+            el.scrollTop = node.offsetTop - el.offsetTop;
+        } else {
+            el.scrollTop = el.scrollHeight;
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const isSelected = (date) =>
         (startDate && isSameDay(date, startDate)) || (endDate && isSameDay(date, endDate));
@@ -161,7 +195,7 @@ export default function Calendar({
                                             </DayButton>
                                         </DayCell>
                                     ) : (
-                                        <DayCell />
+                                        <DayCell key={date.toISOString()} />
                                     );
                                 })}
                             </DaysGrid>

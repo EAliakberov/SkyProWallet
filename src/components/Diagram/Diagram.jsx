@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useContext, useEffect, useMemo } from 'react';
 import { DiagramCard, SColumn } from './Diagram.styled';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
+import { TransactionsContext } from '../../context/contextAPI';
+import { categories } from '../../CategoriesData';
 
 function Column({ value, maxValue, name, color }) {
     return (
@@ -14,32 +16,92 @@ function Column({ value, maxValue, name, color }) {
 }
 
 export function Diagram() {
-    const [money] = useState(1000);
-    const startDate = new Date();
-    const endDate = new Date();
+    const {
+        transactionsPeriod,
+        transactions,
+        loadTransactions,
+        loadTransactionsByPeriod,
+        setPeriod,
+    } = useContext(TransactionsContext);
 
-    const columns = [
-        { value: 5000, maxValue: 10000, name: 'Еда', color: '#D9B6FF' },
-        { value: 7500, maxValue: 10000, name: 'Транспорт', color: '#FFB53D' },
-        { value: 5000, maxValue: 10000, name: 'Жилье', color: '#6EE4FE' },
-        { value: 7500, maxValue: 10000, name: 'Развлечени', color: '#B0AEFF' },
-        { value: 5000, maxValue: 10000, name: 'Образование', color: '#BCEC30' },
-        { value: 0, maxValue: 10000, name: 'Другое', color: '#FFB9B8' },
-    ];
+    useEffect(() => {
+        transactionsPeriod
+            ? loadTransactionsByPeriod(transactionsPeriod).catch(() => {})
+            : loadTransactions().catch(() => {});
+    }, [loadTransactions, loadTransactionsByPeriod, transactionsPeriod]);
+
+    const { startDate, endDate } = useMemo(() => {
+        return transactionsPeriod
+            ? { startDate: transactionsPeriod.start, endDate: transactionsPeriod.end }
+            : { start: null, end: null };
+    }, [transactionsPeriod]);
+
+    const columns = useMemo(() => {
+        const columns = Object.keys(categories).reduce((acc, category) => {
+            acc[category] = {
+                value: 0,
+                maxValue: 0,
+                name: categories[category].label,
+            };
+            return acc;
+        }, {});
+
+        transactions &&
+            transactions.forEach((spend) => {
+                columns[spend.category].value += +spend.sum;
+            });
+        const res = [
+            { ...columns['food'], color: '#D9B6FF' },
+            { ...columns['transport'], color: '#FFB53D' },
+            { ...columns['housing'], color: '#6EE4FE' },
+            { ...columns['joy'], color: '#B0AEFF' },
+            { ...columns['education'], color: '#BCEC30' },
+            { ...columns['others'], color: '#FFB9B8' },
+        ];
+
+        const maxValue = res.reduce((acc, value) => {
+            return value.value > acc ? value.value : acc;
+        }, 0);
+
+        res.forEach((value) => {
+            value.maxValue = maxValue;
+        });
+        return res;
+    }, [transactions]);
+
+    const money = useMemo(() => {
+        return columns.reduce((acc, value) => {
+            acc += value.value;
+            return acc;
+        }, 0);
+    }, [columns]);
 
     return (
         <DiagramCard>
-            <h2 className="title">{money + ' ₽'}</h2>
-            <p className="diagram-text">
-                Расходы за{' '}
-                <span className="diagram-date">
-                    {startDate ? format(startDate, 'd MMM yyyy', { locale: ru }) : 'Начало'}
-                </span>
-                {' — '}
-                <span className="diagram-date">
-                    {endDate ? format(endDate, 'd MMM yyyy', { locale: ru }) : 'Конец'}
-                </span>
-            </p>
+            <h2
+                className="title"
+                onClick={() => {
+                    setPeriod(null);
+                }}
+            >
+                {money + ' ₽'}
+            </h2>
+            {transactionsPeriod ? (
+                <p className="diagram-text">
+                    Расходы за{' '}
+                    <span className="diagram-date">
+                        {startDate ? format(startDate, 'd MMM yyyy', { locale: ru }) : 'Начало'}
+                    </span>{' '}
+                    {startDate.getDate() !== endDate.getDate() ? ' — ' : null}
+                    {startDate.getDate() !== endDate.getDate() ? (
+                        <span className="diagram-date">
+                            {endDate ? format(endDate, 'd MMM yyyy', { locale: ru }) : 'Конец'}
+                        </span>
+                    ) : null}
+                </p>
+            ) : (
+                <p className="diagram-text"> Расходы за все время</p>
+            )}
             <div className="diagram-columns">
                 {columns.map((column) => (
                     <Column

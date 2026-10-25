@@ -24,7 +24,7 @@ export const SCategoryButton = styled.button`
 
     &:hover {
         border-color: #4a90e2;
-        background-color: ${({ $active }) => ($active ? '#3a7bc8' : '#f5f7fa')};
+        background-color: ${({ $active }) => ($active ? '#aec9f0' : '#f5f7fa')};
     }
 
     &:active {

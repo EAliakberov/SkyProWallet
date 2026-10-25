@@ -1,3 +1,4 @@
+import { useContext, useEffect, useState } from 'react';
 import {
     Card,
     Cell,
@@ -8,7 +9,8 @@ import {
     Row,
     TableWrapper,
 } from './ExpensesTable.styled';
-import { expenses } from './tempData';
+import { TransactionsContext } from '../../context/contextAPI';
+import { categories } from '../../CategoriesData';
 
 const TrashIcon = () => (
     <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -23,10 +25,34 @@ const TrashIcon = () => (
     </svg>
 );
 
+const dateToDisplay = (date) => {
+    if (!(date instanceof Date) || Number.isNaN(date.getTime())) return '';
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}.${month}.${year}`;
+};
+
 export default function ExpensesTable() {
-    const handleDelete = (index) => {
-        console.log('Удаление строки:', index);
+    const [options, setOptions] = useState({});
+    const { transactions, loading, error, loadTransactions, removeTransaction } =
+        useContext(TransactionsContext);
+
+    useEffect(() => {
+        loadTransactions(options).catch(() => {});
+    }, [options, loadTransactions]);
+
+    const handleDelete = (id) => {
+        removeTransaction(id);
     };
+
+    function handleFilterClick(sortBy) {
+        if (options?.sortBy === sortBy) {
+            setOptions({ ...options, sortBy: null});
+        } else {
+            setOptions({ ...options, sortBy: sortBy });
+        }
+    }
 
     return (
         <Card>
@@ -40,11 +66,23 @@ export default function ExpensesTable() {
                         <Cell role="columnheader" $head>
                             Категория
                         </Cell>
-                        <Cell role="columnheader" $head>
-                            Дата
+                        <Cell
+                            role="columnheader"
+                            $head
+                            onClick={() => {
+                                handleFilterClick('date');
+                            }}
+                        >
+                            <span style={options?.sortBy === 'date' ? {fontWeight: 600} : null}>
+                                Дата
+                            </span>
                         </Cell>
-                        <Cell role="columnheader" $head>
-                            Сумма
+                        <Cell role="columnheader" $head onClick={() => {
+                                handleFilterClick('sum');
+                            }}>
+                            <span style={options?.sortBy === 'sum' ? {fontWeight: 600} : null}>
+                                Сумма
+                            </span>
                         </Cell>
                         <Cell role="columnheader" $head $action></Cell>
                     </GridHead>
@@ -52,24 +90,32 @@ export default function ExpensesTable() {
             </HeadWrapper>
             <TableWrapper>
                 <Grid role="table" aria-label="Таблица расходов">
-                    {expenses.map((expense, index) => (
-                        <Row key={index} role="row">
-                            <Cell role="cell">{expense.description}</Cell>
-                            <Cell role="cell">{expense.category}</Cell>
-                            <Cell role="cell">{expense.date}</Cell>
-                            <Cell role="cell">{expense.amount}</Cell>
+                    {loading ? (
+                        <div>Идет загрузка</div>
+                    ) : Array.isArray(transactions) ? (
+                        transactions.map((expense, index) => (
+                            <Row key={index} role="row">
+                                <Cell role="cell">{expense.description}</Cell>
+                                <Cell role="cell">{categories[expense.category].label}</Cell>
+                                <Cell role="cell">{dateToDisplay(new Date(expense.date))}</Cell>
+                                <Cell role="cell">{`${expense.sum} ₽`}</Cell>
 
-                            <Cell role="cell" $action>
-                                <DeleteButton
-                                    type="button"
-                                    aria-label={`Удалить ${expense.description}`}
-                                    onClick={() => handleDelete(index)}
-                                >
-                                    <TrashIcon />
-                                </DeleteButton>
-                            </Cell>
-                        </Row>
-                    ))}
+                                <Cell role="cell" $action>
+                                    <DeleteButton
+                                        type="button"
+                                        aria-label={`Удалить ${expense.description}`}
+                                        onClick={() => handleDelete(expense._id)}
+                                    >
+                                        <TrashIcon />
+                                    </DeleteButton>
+                                </Cell>
+                            </Row>
+                        ))
+                    ) : (
+                        JSON.stringify(transactions)
+                    )}
+                    {transactions.length < 1 ? <p>Нет транзакций</p> : null}
+                    {error ? <p>{error.message}</p> : null}
                 </Grid>
             </TableWrapper>
         </Card>

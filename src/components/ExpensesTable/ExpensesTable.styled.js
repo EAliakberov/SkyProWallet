@@ -3,8 +3,8 @@ import styled from 'styled-components';
 const GRID_COLUMNS = '1fr 1fr 1fr 1fr 12px';
 
 export const Card = styled.section`
-    width: 100%;
-    flex: 1;
+    min-width: 0;
+    flex: 1 1 0%;
     display: flex;
     flex-direction: column;
 
@@ -33,8 +33,8 @@ export const TableWrapper = styled.div`
     padding-top: 12px;
 
     &::-webkit-scrollbar {
-        width: 6px; 
-        height: 6px; 
+        width: 6px;
+        height: 6px;
     }
 
     &::-webkit-scrollbar-track {
@@ -43,13 +43,13 @@ export const TableWrapper = styled.div`
     }
 
     &::-webkit-scrollbar-thumb {
-        background-color: #D9D9D9;
+        background-color: #d9d9d9;
         border: none;
         border-radius: 6px;
     }
 
     &::-webkit-scrollbar-thumb:hover {
-        background-color: #D9D9D9;
+        background-color: #d9d9d9;
     }
 `;
 
@@ -67,7 +67,7 @@ export const HeadWrapper = styled.div`
 export const Grid = styled.div`
     display: grid;
     grid-template-columns: ${GRID_COLUMNS};
-
+    column-gap: 24px;
     width: 100%;
     min-width: 600px;
 `;
@@ -89,9 +89,13 @@ export const Row = styled.div`
 
 export const Cell = styled.div`
     grid-template-columns: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     height: 15px;
-    display: flex;
+    // display: flex;
     align-items: center;
+    width: 100%;
 
     color: #000000;
 
@@ -109,7 +113,6 @@ export const Cell = styled.div`
         border-bottom: 1px solid #d5d5d5;
         color: #b8b8b8;
         `}
-
 `;
 
 export const DeleteButton = styled.button`

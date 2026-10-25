@@ -51,6 +51,10 @@ export const SColumn = styled.div`
     & .column-name {
         margin: 0;
         white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        width: 100%;
+        text-align: center;
     }
     & .column-body {
         width: 100%;

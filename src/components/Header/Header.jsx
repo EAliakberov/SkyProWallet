@@ -20,7 +20,7 @@ function HeaderLink({ disabled, children, ...props }) {
 export function Header({ showButtons, activePage }) {
     const { logOut } = useContext(UserContext);
 
-    function handleExitClick(e) {
+    function handleExitClick() {
         logOut();
     }
 

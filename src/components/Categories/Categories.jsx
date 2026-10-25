@@ -1,15 +1,24 @@
 import CategoryButton from '../CategoryButton/CategoryButton';
 import { SCategories } from './Categories.styled';
+import { categories } from '../../CategoriesData';
 
-export function Categories() {
+export function Categories({ value, onChange }) {
     return (
         <SCategories>
-            <CategoryButton isActive={true} value="Еда"></CategoryButton>
-            <CategoryButton value="Транспорт"></CategoryButton>
-            <CategoryButton value="Жилье"></CategoryButton>
-            <CategoryButton value="Развлечения"></CategoryButton>
-            <CategoryButton value="Образование"></CategoryButton>
-            <CategoryButton value="Другое"></CategoryButton>
+            {Object.keys(categories).map((key) => {
+                return (
+                    <CategoryButton
+                        isActive={key === value}
+                        key={key}
+                        onClick={() => {
+                            onChange(key);
+                        }}
+                    >
+                        {categories[key]?.icon || null}
+                        {categories[key]?.label || key}
+                    </CategoryButton>
+                );
+            })}
         </SCategories>
     );
 }

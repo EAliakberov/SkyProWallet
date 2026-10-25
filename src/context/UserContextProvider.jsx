@@ -1,20 +1,30 @@
 import { useEffect, useState } from 'react';
 import { UserContext } from './contextAPI';
 import { userLogin, userRegister } from '../Services/userAPI';
+import { setAuthToken } from '../Services/api';
 
 export const UserContextProvider = ({ children }) => {
     const [userData, setUserData] = useState(() => {
         try {
             const localUserData = localStorage.getItem('userData');
-            return localUserData ? JSON.parse(localUserData) : null;
+            if (localUserData) {
+                const parsed = JSON.parse(localUserData);
+                setAuthToken(parsed?.token || null);
+                return parsed;
+            }
         } catch {
             return null;
         }
+        return null;
     });
 
     useEffect(() => {
-        if (userData) localStorage.setItem('userData', JSON.stringify(userData));
-        else localStorage.removeItem('userData');
+        if (userData) {
+            localStorage.setItem('userData', JSON.stringify(userData));
+        } else {
+            localStorage.removeItem('userData');
+        }
+        setAuthToken(userData?.token || null);
     }, [userData]);
 
     const logOut = async () => {

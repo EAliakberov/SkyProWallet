@@ -19,10 +19,9 @@ const handleApiError = (err) => {
  * @returns {Promise<Object>} Данные авторизованного пользователя (включая токен)
  */
 export const userLogin = async ({ login, password }) => {
-    console.log(login, password);
     try {
         const loginData = { login, password };
-        console.log(JSON.stringify(loginData));
+
         const response = await userApi.post('/login', JSON.stringify(loginData));
         return response.data?.user || {};
     } catch (err) {

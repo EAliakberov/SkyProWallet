@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const CalendarCard = styled.section`
     width: 379px;
+    min-width: 379px;
     padding: 32px 0 6px 0;
     display: flex;
     flex-direction: column;
@@ -125,7 +126,7 @@ export const DayButton = styled.button`
         transform: scale(0.94);
     }
     &:focus-visible {
-        outline: #7334EA auto 1px;
+        outline: #7334ea auto 1px;
     }
 `;
 

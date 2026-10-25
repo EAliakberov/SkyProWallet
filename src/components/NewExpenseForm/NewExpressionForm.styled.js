@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
 export const SNewExpressionForm = styled.div`
-    width: 100%;
-    max-width: 379px;
-    flex: 1;
+    width: 379px;
+    min-width: 379px;
+    flex: 0 1 0%;
     display: flex;
     flex-direction: column;
 
