@@ -59,6 +59,6 @@ export const SLink = styled(Link)`
         `color: #7334ea;
         border-bottom: 1px solid #7334ea;
         cursor: not-allowed;
-        pointer-events: none; /* ⚡️ Запрещает клики, фокус и hover-эффекты */
+        pointer-events: none; 
   `}
 `;

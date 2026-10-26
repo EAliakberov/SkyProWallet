@@ -63,7 +63,7 @@ export const SColumn = styled.div`
         border-radius: 12px;
         flex-basis: ${({ $size }) => {
             if (typeof $size !== 'number') return $size;
-            const p = Math.min(Math.max($size, 0), 100) / 100; // 0..1
+            const p = Math.min(Math.max($size, 0), 100) / 100; 
             return `calc(4px + ${p} * (100% - 4px))`;
         }};
     }

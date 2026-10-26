@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-// 1. Создаем экземпляр Axios с базовым URL
 const transactionsApi = axios.create({
     baseURL: 'https://wedev-api.sky.pro/api',
     headers: {
@@ -30,7 +29,6 @@ const handleApiError = (err) => {
     throw new Error(message, { cause: err });
 };
 
-// 2. Перехватчик (Interceptor) для автоматического добавления токена к каждому запросу
 transactionsApi.interceptors.request.use(
     (config) => {
         if (authToken) {

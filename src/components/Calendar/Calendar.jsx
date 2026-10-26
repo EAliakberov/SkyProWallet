@@ -57,14 +57,6 @@ export default function Calendar({
     const { setPeriod } = useContext(TransactionsContext);
     const [startDate, setStartDate] = useState(initialStartDate);
     const [endDate, setEndDate] = useState(initialEndDate);
-    // const [visibleMonth, setVisibleMonth] = useState(() => {
-    //     if (initialStartDate) {
-    //         return startOfMonth(initialStartDate);
-    //     }
-    //     const d = new Date();
-    //     d.setMonth(d.getMonth() - 16);
-    //     return startOfMonth(d);
-    // });
 
     const scrollRef = useRef(null);
     const monthRefs = useRef({});
