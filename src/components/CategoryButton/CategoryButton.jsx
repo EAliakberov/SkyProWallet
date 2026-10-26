@@ -1,15 +1,16 @@
+import { SCategoryButton } from './CategoryButton.styled';
 
-
-const CategoryButton = ({ label, isActive, onClick }) => {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={isActive ? 'category-button active' : 'category-button'}
-    >
-      {label}
-    </button>
-  );
+const CategoryButton = ({ isActive, onClick, children }) => {
+    return (
+        <SCategoryButton
+            type="button"
+            onClick={onClick}
+            className={isActive ? 'category-button active' : 'category-button'}
+            $active={isActive}
+        >
+            {children}
+        </SCategoryButton>
+    );
 };
 
 export default CategoryButton;
